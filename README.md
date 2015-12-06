@@ -27,7 +27,22 @@ collection.addItems([item1, item2], function (err, res) {
 ```
 
 ```javascript
-collection.updateItems([item1, item2], function (err, res) {
+collection.partialUpdateItem(item, function (err, res) {
+  console.log(err, res);
+});
+
+collection.updateItem(item, function (err, res) {
+  console.log(err, res);
+});
+```
+
+delete items
+```javascript
+collection.deleteItem('id', function (err, res) {
+  console.log(err, res);
+});
+
+collection.deleteItems(['id1', 'id2'], function (err, res) {
   console.log(err, res);
 });
 ```
