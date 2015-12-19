@@ -1,0 +1,34 @@
+{
+  "name": "itemsapi-node",
+  "version": "1.0.0",
+  "description": "Node.js client for ItemsAPI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itemsapi/itemsapi-node.git"
+  },
+  "keywords": [
+    "itemsapi",
+    "client",
+    "items",
+    "api"
+  ],
+  "author": "Mateusz Rzepa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itemsapi/itemsapi-node/issues"
+  },
+  "homepage": "https://github.com/itemsapi/itemsapi-node#readme",
+  "dependencies": {
+    "assert": "^1.3.0",
+    "bluebird": "^3.1.1",
+    "extend": "^3.0.0",
+    "mocha": "^2.3.4",
+    "request": "^2.67.0",
+    "should": "^8.0.2",
+    "underscore": "^1.8.3"
+  }
+}
