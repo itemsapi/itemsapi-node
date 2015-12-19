@@ -16,6 +16,7 @@ ItemsAPI.prototype = {
     var self = this;
     return request.getAsync({
       url: self.backendUrl + '/' + self.collectionName,
+      qs: options,
       json: true
     })
     .then(function(res) {
