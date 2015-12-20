@@ -12,11 +12,21 @@ var ItemsAPI = function(backendUrl, collectionName) {
 };
 
 ItemsAPI.prototype = {
-  searchAsync: function(options) {
+  search: function(options) {
     var self = this;
     return request.getAsync({
       url: self.backendUrl + '/' + self.collectionName,
       qs: options,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+  getItem: function(id) {
+    var self = this;
+    return request.getAsync({
+      url: self.backendUrl + '/' + self.collectionName + '/' + id,
       json: true
     })
     .then(function(res) {
