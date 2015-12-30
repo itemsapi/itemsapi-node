@@ -17,6 +17,7 @@ ItemsAPI.prototype = {
     return request.getAsync({
       url: self.backendUrl + '/' + self.collectionName,
       qs: options,
+      useQuerystring: true,
       json: true
     })
     .then(function(res) {
@@ -31,6 +32,16 @@ ItemsAPI.prototype = {
     })
     .then(function(res) {
       return res.body;
+    });
+  },
+  metadata: function() {
+    var self = this;
+    return request.getAsync({
+      url: self.backendUrl + '/' + self.collectionName + '/metadata',
+      json: true
+    })
+    .then(function(res) {
+      return res.body.metadata;
     });
   }
 }

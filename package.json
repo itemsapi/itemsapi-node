@@ -1,6 +1,6 @@
 {
   "name": "itemsapi-node",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Node.js client for ItemsAPI",
   "main": "src/index.js",
   "scripts": {
