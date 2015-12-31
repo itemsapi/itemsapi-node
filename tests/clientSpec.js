@@ -3,6 +3,8 @@ var assert = require('assert');
 var ItemsAPI = require('../src/index');
 var client = new ItemsAPI('http://cloud.itemsapi.com/api/v1', 'movie');
 
+var id;
+
 describe('search', function() {
   it('should search items', function(done) {
     client.search({sort: 'most_votes'})
@@ -16,20 +18,57 @@ describe('search', function() {
     })
   });
 
+  it('should add item', function(done) {
+    client.addItem({
+      name: 'Test',
+      votes: 15,
+      rating: '5.11',
+      tags: ['test', 'test1'],
+      actors: ['actor1', 'actor2']
+    })
+    .then(function(res) {
+      res.should.have.property('id')
+      id = res.id;
+      done();
+    })
+  });
+
   it('should get item', function(done) {
-    done();
+    return client.getItem(id)
+    .then(function(res) {
+      res.should.have.property('rating', '5.11')
+      res.should.have.property('tags', ['test', 'test1'])
+      done();
+    })
   });
 
   it('should update item partially', function(done) {
-    client.partialUpdateItem('AVHjNe0Rf1IR5HNUxYoV', {rating: '7.23'})
+    client.partialUpdateItem(id, {rating: '7.23'})
     .then(function(res) {
-      res.should.have.property('id', 'AVHjNe0Rf1IR5HNUxYoV')
-      return client.getItem('AVHjNe0Rf1IR5HNUxYoV')
+      res.should.have.property('id', id)
+      done();
     })
+  });
+
+  it('should delete item', function(done) {
+    return client.deleteItem(id)
     .then(function(res) {
-      res.should.have.property('id', 'AVHjNe0Rf1IR5HNUxYoV')
-      res.should.have.property('rating', '7.23')
-      res.should.have.property('tags')
+      done();
+    })
+  });
+
+  it('should not get item', function(done) {
+    return client.getItem(id)
+    .then(function(res) {
+      res.should.have.property('status', '404')
+      done();
+    })
+  });
+
+  it('should not delete item', function(done) {
+    return client.deleteItem('notfound')
+    .then(function(res) {
+      res.should.have.property('status', '404');
       done();
     })
   });
