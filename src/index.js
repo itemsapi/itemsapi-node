@@ -34,6 +34,19 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+  partialUpdateItem: function(id, data) {
+    var self = this;
+    return request.putAsync({
+      url: self.backendUrl + '/' + self.collectionName + '/' + id,
+      body: data,
+      json: true
+    })
+    .then(function(res) {
+      return {
+        id: res.body._id
+      };
+    });
+  },
   metadata: function() {
     var self = this;
     return request.getAsync({
