@@ -34,6 +34,27 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+  deleteItem: function(id) {
+    var self = this;
+    return request.delAsync({
+      url: self.backendUrl + '/' + self.collectionName + '/' + id,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+  addItem: function(data) {
+    var self = this;
+    return request.postAsync({
+      url: self.backendUrl + '/' + self.collectionName,
+      body: data,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
   partialUpdateItem: function(id, data) {
     var self = this;
     return request.putAsync({
