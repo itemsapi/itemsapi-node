@@ -72,4 +72,60 @@ describe('search', function() {
       done();
     })
   });
+
+  it('should get collection', function(done) {
+    return client.getCollection({
+      name: 'movie'
+    })
+    .then(function(res) {
+      res.should.have.property('schema');
+      res.should.have.property('name', 'movie');
+      done();
+    })
+  });
+
+  it('should add collection', function(done) {
+    return client.addCollection({
+      name: 'temporary',
+      project: 'temporary',
+      schema: {}
+    })
+    .then(function(res) {
+      done();
+    })
+  });
+
+  it('should get new collection', function(done) {
+    return client.getCollection({
+      name: 'temporary'
+    })
+    .then(function(res) {
+      res.should.have.property('schema');
+      res.should.have.property('name', 'temporary');
+      done();
+    })
+  });
+
+  it('should remove collection', function(done) {
+    return client.deleteCollection({
+      name: 'temporary',
+      project: 'temporary'
+    })
+    .then(function(res) {
+      done();
+    })
+  });
+
+  it('should not get new collection', function(done) {
+    return client.getCollection({
+      name: 'temporary'
+    })
+    .then(function(res) {
+      res.should.have.property('status', '404')
+      //res.should.have.property('schema');
+      //res.should.have.property('name', 'temporary');
+      done();
+    })
+  });
+
 });

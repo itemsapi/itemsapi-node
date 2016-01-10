@@ -15,7 +15,7 @@ ItemsAPI.prototype = {
   search: function(options) {
     var self = this;
     return request.getAsync({
-      url: self.backendUrl + '/' + self.collectionName,
+      url: self.backendUrl + '/items/' + self.collectionName,
       qs: options,
       useQuerystring: true,
       json: true
@@ -27,7 +27,7 @@ ItemsAPI.prototype = {
   getItem: function(id) {
     var self = this;
     return request.getAsync({
-      url: self.backendUrl + '/' + self.collectionName + '/' + id,
+      url: self.backendUrl + '/items/' + self.collectionName + '/' + id,
       json: true
     })
     .then(function(res) {
@@ -37,7 +37,7 @@ ItemsAPI.prototype = {
   deleteItem: function(id) {
     var self = this;
     return request.delAsync({
-      url: self.backendUrl + '/' + self.collectionName + '/' + id,
+      url: self.backendUrl + '/items/' + self.collectionName + '/' + id,
       json: true
     })
     .then(function(res) {
@@ -47,7 +47,7 @@ ItemsAPI.prototype = {
   addItem: function(data) {
     var self = this;
     return request.postAsync({
-      url: self.backendUrl + '/' + self.collectionName,
+      url: self.backendUrl + '/items/' + self.collectionName,
       body: data,
       json: true
     })
@@ -58,7 +58,7 @@ ItemsAPI.prototype = {
   partialUpdateItem: function(id, data) {
     var self = this;
     return request.putAsync({
-      url: self.backendUrl + '/' + self.collectionName + '/' + id,
+      url: self.backendUrl + '/items/' + self.collectionName + '/' + id,
       body: data,
       json: true
     })
@@ -71,11 +71,60 @@ ItemsAPI.prototype = {
   metadata: function() {
     var self = this;
     return request.getAsync({
-      url: self.backendUrl + '/' + self.collectionName + '/metadata',
+      url: self.backendUrl + '/collections/' + self.collectionName + '/metadata',
       json: true
     })
     .then(function(res) {
       return res.body.metadata;
+    });
+  },
+  getCollection: function(data) {
+    var self = this;
+    return request.getAsync({
+      url: self.backendUrl + '/collections/' + data.name,
+      qs: data,
+      useQuerystring: true,
+      json: true
+    })
+    .then(function(res) {
+      console.log('body');
+      return res.body;
+    });
+  },
+  addCollection: function(data) {
+    var self = this;
+    return request.postAsync({
+      url: self.backendUrl + '/collections',
+      body: data,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+  deleteCollection: function(where) {
+    var self = this;
+    return request.delAsync({
+      url: self.backendUrl + '/collections/' + where.name,
+      qs: where,
+      useQuerystring: true,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+  partialUpdateCollection: function(data, where) {
+    var self = this;
+    return request.putAsync({
+      url: self.backendUrl + '/collections/' + where.name,
+      qs: where,
+      useQuerystring: true,
+      body: data,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
     });
   }
 }
