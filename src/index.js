@@ -78,16 +78,28 @@ ItemsAPI.prototype = {
       return res.body.metadata;
     });
   },
-  getCollection: function(data) {
+  getCollections: function(data) {
     var self = this;
     return request.getAsync({
-      url: self.backendUrl + '/collections/' + data.name,
+      url: self.backendUrl + '/collections',
       qs: data,
       useQuerystring: true,
       json: true
     })
     .then(function(res) {
-      console.log('body');
+      return res.body;
+    });
+  },
+  // need to handle errors
+  getCollection: function(data) {
+    var self = this;
+    return request.getAsync({
+      url: self.backendUrl + '/collections/' + self.collectionName,
+      qs: data,
+      useQuerystring: true,
+      json: true
+    })
+    .then(function(res) {
       return res.body;
     });
   },
@@ -114,12 +126,10 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
-  partialUpdateCollection: function(data, where) {
+  partialUpdateCollection: function(data) {
     var self = this;
     return request.putAsync({
-      url: self.backendUrl + '/collections/' + where.name,
-      qs: where,
-      useQuerystring: true,
+      url: self.backendUrl + '/collections/' + self.collectionName,
       body: data,
       json: true
     })
