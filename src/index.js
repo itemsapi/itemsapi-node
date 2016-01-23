@@ -6,9 +6,10 @@ var request = Promise.promisifyAll(require('request'));
 /**
  * ItemsAPI search client
  */
-var ItemsAPI = function(backendUrl, collectionName) {
+var ItemsAPI = function(backendUrl, collectionName, projectName) {
   this.backendUrl = backendUrl;
   this.collectionName = collectionName;
+  this.projectName = projectName;
 };
 
 ItemsAPI.prototype = {
@@ -136,7 +137,27 @@ ItemsAPI.prototype = {
     .then(function(res) {
       return res.body;
     });
-  }
+  },
+  getMapping: function(collectionName) {
+    var self = this;
+    return request.getAsync({
+      url: self.backendUrl + '/collections/' + (collectionName || self.collectionName) + '/mapping',
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+  createMapping: function(collectionName) {
+    var self = this;
+    return request.postAsync({
+      url: self.backendUrl + '/collections/' + collectionName + '/mapping',
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
 }
 
 module.exports = ItemsAPI;
