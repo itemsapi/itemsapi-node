@@ -25,6 +25,20 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+  similar: function(id, options) {
+    var self = this;
+    options = options || {};
+    options.fields = (options.fields || []).join(',');
+    return request.getAsync({
+      url: self.backendUrl + '/items/' + self.collectionName + '/' + id + '/similar',
+      qs: options,
+      useQuerystring: true,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
   getItem: function(id) {
     var self = this;
     return request.getAsync({
