@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var extend = require('extend');
 var Promise = require('bluebird');
 var request = Promise.promisifyAll(require('request'));
@@ -35,6 +35,19 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+  getItemByKeyValue: function(key, value) {
+    var self = this;
+    return request.getAsync({
+      url: self.backendUrl + '/items/' + self.collectionName + '/' + key + '/' + value + '/one',
+      json: true
+    })
+    .then(function(res) {
+      if (res.statusCode) {
+        throw new Error('not found');
+      }
+      return res.body;
+    });
+  },
   deleteItem: function(id) {
     var self = this;
     return request.delAsync({
@@ -45,6 +58,19 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+  deleteAllItems: function() {
+    var self = this;
+    return request.delAsync({
+      url: self.backendUrl + '/items/' + self.collectionName,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+  /**
+   * add one or more items
+   */
   addItem: function(data) {
     var self = this;
     return request.postAsync({
@@ -55,6 +81,25 @@ ItemsAPI.prototype = {
     .then(function(res) {
       return res.body;
     });
+  },
+  addItems: function(data) {
+    var self = this;
+    return self.addItem(data);
+  },
+  addBulkItems: function(data, options) {
+    var self = this;
+    options = options || {};
+    options.size = options.size || 100;
+    options.concurrency = options.concurrency || 3;
+
+    return Promise.all(_.chunk(data, options.size))
+    .map(function(res) {
+      return self.addItem(res)
+      .then(function(res) {
+        console.log(res);
+        return res;
+      });
+    }, {concurrency: options.concurrency});
   },
   partialUpdateItem: function(id, data) {
     var self = this;
