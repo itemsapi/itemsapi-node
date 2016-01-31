@@ -42,7 +42,7 @@ ItemsAPI.prototype = {
       json: true
     })
     .then(function(res) {
-      if (res.statusCode) {
+      if (res.statusCode !== 200) {
         throw new Error('not found');
       }
       return res.body;
