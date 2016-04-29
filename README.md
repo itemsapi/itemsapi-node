@@ -113,7 +113,15 @@ client.getCollection()
 })
 ```
 
-### Get collections 
+### Add collection
+```js
+client.addCollection(collection)
+.then(function(result) {
+  console.log(result);
+})
+```
+
+### Get all collections 
 
 ```js
 client.getCollections()
