@@ -66,6 +66,32 @@ client.similar('item-id', {
 })
 ```
 
+
+### Get item
+```js
+client.getItem(id)
+.then(function(result) {
+  console.log(result);
+})
+```
+
+### Add item
+
+```js
+client.addItem(data)
+.then(function(result) {
+  console.log(result);
+})
+```
+
+### Delete item
+```js
+client.deleteItem(id)
+.then(function(result) {
+  console.log(result);
+})
+```
+
 ### Add items in bulk
 
 ```js
@@ -83,6 +109,16 @@ client.getCollection()
   console.log(result);
 })
 ```
+
+### Get collections 
+
+```js
+client.getCollections()
+.then(function(result) {
+  console.log(result);
+})
+```
+
 
 ### Update collection partially
 
