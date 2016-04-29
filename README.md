@@ -1,5 +1,5 @@
 # itemsapi-node
-Node.js client for <a href="https://www.itemsapi.com" target="_blank">ItemsAPI</a>
+Node.js client for <a href="https://www.itemsapi.com" target="_blank">ItemsAPI</a> - node.js & elasticsearch search server for web and mobile
 
 ```
 $ npm install itemsapi-node --save
