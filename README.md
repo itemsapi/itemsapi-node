@@ -12,6 +12,8 @@ var ItemsAPI = require('itemsapi-node');
 var client = new ItemsAPI('http://yourLocalOrHerokuUrl.com/api/v1', 'cities');
 ``` 
 
+## Items
+
 ### Search items
 
 ```js
@@ -56,7 +58,7 @@ Example response:
 }
 ```
 
-### show similar items 
+### Similar items 
 
 ```js
 client.similar('item-id', {
@@ -65,7 +67,6 @@ client.similar('item-id', {
   console.log(res);
 })
 ```
-
 
 ### Get item
 ```js
@@ -101,6 +102,8 @@ client.addBulkItems(cities)
 })
 ```
 
+## Collections
+
 ### Get collection
 
 ```js
@@ -118,7 +121,6 @@ client.getCollections()
   console.log(result);
 })
 ```
-
 
 ### Update collection partially
 
