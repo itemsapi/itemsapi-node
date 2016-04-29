@@ -5,14 +5,14 @@ Node.js client for <a href="https://www.itemsapi.com" target="_blank">ItemsAPI</
 $ npm install itemsapi-node --save
 ``` 
 
-Init client:
+### Init client:
 
 ```js
 var ItemsAPI = require('itemsapi-node');
-var client = new ItemsAPI('http://cloud.itemsapi.com/api/v1', 'cities');
+var client = new ItemsAPI('http://yourLocalOrHerokuUrl.com/api/v1', 'cities');
 ``` 
 
-Search items:
+### Search items
 
 ```js
 var facets = {
@@ -54,4 +54,44 @@ Example response:
      sortings: { country: [Object], distance: [Object], city: [Object] } 
   } 
 }
+```
+
+### show similar items 
+
+```js
+client.similar('item-id', {
+  fields: ['tags']
+}).then(function(res) {
+  console.log(res);
+})
+```
+
+### Add items in bulk
+
+```js
+client.addBulkItems(cities)
+.then(function(res) {
+  console.log('added ' + cities.length + 'elements');
+})
+```
+
+### Get collection
+
+```js
+client.getCollection()
+.then(function(result) {
+  console.log(result);
+})
+```
+
+### Update collection partially
+
+```js
+client.partialUpdateCollection({
+  index: 'new-index-name',
+  type: 'new-type-name',
+})
+.then(function(result) {
+  console.log(result);
+})
 ```
