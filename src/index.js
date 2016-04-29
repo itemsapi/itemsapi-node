@@ -6,15 +6,19 @@ var request = Promise.promisifyAll(require('request'));
 /**
  * ItemsAPI search client
  */
-var ItemsAPI = function(backendUrl, collectionName, projectName) {
+var ItemsAPI = function(backendUrl, collectionName) {
   this.backendUrl = backendUrl;
   this.collectionName = collectionName;
-  this.projectName = projectName;
 };
 
 ItemsAPI.prototype = {
   search: function(options) {
     var self = this;
+
+    if (options.aggs && !_.isString(options.aggs)) {
+      options.aggs = JSON.stringify(options.aggs);
+    }
+
     return request.getAsync({
       url: self.backendUrl + '/items/' + self.collectionName,
       qs: options,
