@@ -113,6 +113,47 @@ client.getCollection()
 })
 ```
 
+Example response:
+
+```js
+{ 
+  name: 'cities',
+  type: 'cities',
+  index: 'cities',
+  meta: { title: 'Cities' },
+  defaults: { sort: 'city' },
+  schema: { 
+    city: { type: 'string', store: true, index: 'not_analyzed' },
+    province: { type: 'string', store: true },
+    province_icon: { type: 'string', display: 'image' },
+    country: { type: 'string', index: 'not_analyzed', store: true },
+    country_icon: { type: 'string', display: 'image' },
+    geo: { type: 'geo_point' } 
+  },
+  sortings: { 
+    country: { 
+      title: 'Country',
+      type: 'normal',
+      order: 'asc',
+      field: 'country' 
+    },
+    distance: { title: 'Distance', type: 'geo', order: 'asc', field: 'geo' },
+    city: { title: 'City', type: 'normal', order: 'asc', field: 'city' } 
+  },
+  table: {},
+  aggregations: { 
+    country: { type: 'terms', field: 'country', size: 10, title: 'Country' },
+    distance_ranges: { 
+      type: 'geo_distance',
+      field: 'geo',
+      ranges: [Object],
+      unit: 'km',
+      title: 'Distance ranges [km]' 
+    } 
+  } 
+}
+```
+
 ### Add collection
 ```js
 client.addCollection(collection)
