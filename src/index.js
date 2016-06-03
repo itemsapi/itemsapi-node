@@ -12,6 +12,29 @@ var ItemsAPI = function(backendUrl, collectionName) {
 };
 
 ItemsAPI.prototype = {
+
+  /**
+   * override client params
+   */
+  setParams: function(options) {
+    if (options.collectionName || options.name) {
+      this.collectionName = options.name || options.collectionName
+    }
+    if (options.backendUrl) {
+      this.backendUrl = options.backendUrl
+    }
+  },
+
+  /**
+   * override client collection name
+   */
+  setName: function(name) {
+    this.collectionName = name
+  },
+
+  /**
+   * search items
+   */
   search: function(options) {
     var self = this;
 
@@ -29,6 +52,10 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+
+  /**
+   * similar items
+   */
   similar: function(id, options) {
     var self = this;
     options = options || {};
@@ -43,6 +70,10 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+
+  /**
+   * get item by id
+   */
   getItem: function(id) {
     var self = this;
     return request.getAsync({
@@ -53,6 +84,10 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+
+  /**
+   * get item by key and value
+   */
   getItemByKeyValue: function(key, value) {
     var self = this;
     return request.getAsync({
@@ -66,6 +101,10 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+
+  /**
+   * delete item by id
+   */
   deleteItem: function(id) {
     var self = this;
     return request.delAsync({
@@ -76,6 +115,10 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+
+  /**
+   * delete all items in collection
+   */
   deleteAllItems: function() {
     var self = this;
     return request.delAsync({
@@ -86,8 +129,9 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+
   /**
-   * add one or more items
+   * add one or more items to collection
    */
   addItem: function(data) {
     var self = this;
@@ -100,10 +144,18 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+
+  /**
+   * add items into collection
+   */
   addItems: function(data) {
     var self = this;
     return self.addItem(data);
   },
+
+  /**
+   * add bulk items (even millions of them)
+   */
   addBulkItems: function(data, options) {
     var self = this;
     options = options || {};
@@ -119,6 +171,10 @@ ItemsAPI.prototype = {
       });
     }, {concurrency: options.concurrency});
   },
+
+  /**
+   * update item partially
+   */
   partialUpdateItem: function(id, data) {
     var self = this;
     return request.putAsync({
@@ -132,6 +188,10 @@ ItemsAPI.prototype = {
       };
     });
   },
+
+  /**
+   * get metadata (processed collection for website purposes)
+   */
   metadata: function() {
     var self = this;
     return request.getAsync({
@@ -142,6 +202,10 @@ ItemsAPI.prototype = {
       return res.body.metadata;
     });
   },
+
+  /**
+   * get list of all collections
+   */
   getCollections: function(data) {
     var self = this;
     return request.getAsync({
@@ -154,7 +218,10 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
-  // need to handle errors
+
+  /**
+   * get collection
+   */
   getCollection: function(data) {
     var self = this;
     return request.getAsync({
@@ -167,6 +234,10 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+
+  /**
+   * add collection
+   */
   addCollection: function(data) {
     var self = this;
     return request.postAsync({
@@ -178,6 +249,10 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
+
+  /**
+   * delete collection
+   */
   deleteCollection: function(where) {
     var self = this;
     return request.delAsync({
@@ -190,7 +265,11 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
-  partialUpdateCollection: function(data) {
+
+  /**
+   * update collection
+   */
+  updateCollection: function(data) {
     var self = this;
     return request.putAsync({
       url: self.backendUrl + '/collections/' + self.collectionName,
@@ -201,20 +280,60 @@ ItemsAPI.prototype = {
       return res.body;
     });
   },
-  getMapping: function(collectionName) {
+
+  /**
+   * update collection partially
+   */
+  partialUpdateCollection: function(data) {
     var self = this;
-    return request.getAsync({
-      url: self.backendUrl + '/collections/' + (collectionName || self.collectionName) + '/mapping',
+    return request.postAsync({
+      url: self.backendUrl + '/collections/' + self.collectionName + '/partial',
+      body: data,
       json: true
     })
     .then(function(res) {
       return res.body;
     });
   },
+
+  /**
+   * get mapping (elasticsearch)
+   */
+  getMapping: function(collectionName) {
+    var self = this;
+    var name = collectionName || self.collectionName
+    return request.getAsync({
+      url: self.backendUrl + '/collections/' + name + '/mapping',
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+
+  /**
+   * create mapping for collection (elasticsearch)
+   */
   createMapping: function(collectionName) {
     var self = this;
+    var name = collectionName || self.collectionName
     return request.postAsync({
-      url: self.backendUrl + '/collections/' + collectionName + '/mapping',
+      url: self.backendUrl + '/collections/' + name + '/mapping',
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+
+  /**
+   * create full project (collection, mapping, items)
+   */
+  createProject: function(data) {
+    var self = this;
+    return request.postAsync({
+      url: self.backendUrl + '/projects',
+      body: data,
       json: true
     })
     .then(function(res) {
