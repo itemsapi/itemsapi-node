@@ -312,6 +312,25 @@ ItemsAPI.prototype = {
   },
 
   /**
+   * get aggregation
+   */
+  aggregation: function(aggregation_name, options) {
+    var self = this;
+    //var name = collectionName || self.collectionName
+    var name = self.collectionName
+    return request.getAsync({
+      url: self.backendUrl + '/aggregations/' + name + '/' + aggregation_name,
+      qs: options,
+      useQuerystring: true,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+
+
+  /**
    * create mapping for collection (elasticsearch)
    */
   createMapping: function(collectionName) {
