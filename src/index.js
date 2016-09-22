@@ -329,6 +329,22 @@ ItemsAPI.prototype = {
     });
   },
 
+  /**
+   * get aggregation by specific field from schema
+   */
+  fieldAggregation: function(field_name, options) {
+    var self = this;
+    var name = self.collectionName
+    return request.getAsync({
+      url: self.backendUrl + '/aggregations/' + name + '/field/' + field_name,
+      qs: options,
+      useQuerystring: true,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
 
   /**
    * create mapping for collection (elasticsearch)
