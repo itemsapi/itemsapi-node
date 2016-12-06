@@ -166,7 +166,7 @@ ItemsAPI.prototype = {
     .map(function(res) {
       return self.addItem(res)
       .then(function(res) {
-        console.log(res);
+        //console.log(res);
         return res;
       });
     }, {concurrency: options.concurrency});
