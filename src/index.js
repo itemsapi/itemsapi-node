@@ -347,6 +347,57 @@ ItemsAPI.prototype = {
   },
 
   /**
+   * collection reindex
+   */
+  collectionReindex: function(collectionName, options) {
+    var self = this;
+    var name = collectionName || self.collectionName
+    return request.putAsync({
+      url: self.backendUrl + '/collections/' + name + '/reindex',
+      qs: options,
+      useQuerystring: true,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+
+  /**
+   * all slugs reindex
+   */
+  slugsReindex: function(collectionName, options) {
+    var self = this;
+    var name = collectionName || self.collectionName
+    return request.putAsync({
+      url: self.backendUrl + '/slugs/' + name + '/reindex',
+      qs: options,
+      useQuerystring: true,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+
+  /**
+   * get slug value for key
+   */
+  getSlug: function(collectionName, field, key) {
+    var self = this;
+    var name = collectionName || self.collectionName
+    return request.putAsync({
+      url: self.backendUrl + '/slugs/' + name + '/' + field + '/' + key,
+      qs: options,
+      useQuerystring: true,
+      json: true
+    })
+    .then(function(res) {
+      return res.body;
+    });
+  },
+
+  /**
    * create mapping for collection (elasticsearch)
    */
   createMapping: function(collectionName) {
