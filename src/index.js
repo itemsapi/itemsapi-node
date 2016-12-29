@@ -38,6 +38,7 @@ ItemsAPI.prototype = {
   search: function(options) {
     var self = this;
 
+    options = options || {};
     if (options.aggs && !_.isString(options.aggs)) {
       options.aggs = JSON.stringify(options.aggs);
     }
